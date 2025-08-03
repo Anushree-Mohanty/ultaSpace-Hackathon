@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Space Story Generator</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .status {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .status.success { background: rgba(0, 255, 0, 0.2); border: 1px solid #0f0; }
+        .status.error { background: rgba(255, 0, 0, 0.2); border: 1px solid #f00; }
+        .status.warning { background: rgba(255, 255, 0, 0.2); border: 1px solid #ff0; }
+        button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .console {
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Debug Console</h1>
+    
+    <div class="debug-section">
+        <h2>File Loading Status</h2>
+        <div id="fileStatus"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Navigation Test</h2>
+        <button onclick="testNavigation()">Test Navigation Links</button>
+        <div id="navStatus"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>API Test</h2>
+        <button onclick="testAPI()">Test Gemini API</button>
+        <div id="apiStatus"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Roleplay Elements Test</h2>
+        <button onclick="testRoleplayElements()">Test Roleplay Page Elements</button>
+        <div id="roleplayStatus"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Console Output</h2>
+        <div id="console" class="console"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="roleplay.js"></script>
+    <script>
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff6b6b' : type === 'success' ? '#4ecdc4' : '#ffffff';
+            console.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span><br>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        function addStatus(elementId, message, type = 'success') {
+            const element = document.getElementById(elementId);
+            const status = document.createElement('div');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            element.appendChild(status);
+        }
+        
+        // Test file loading
+        function testFileLoading() {
+            log('Testing file loading...');
+            
+            // Test config.js
+            if (window.config) {
+                addStatus('fileStatus', '✅ config.js loaded successfully', 'success');
+                log('config.js loaded successfully');
+            } else {
+                addStatus('fileStatus', '❌ config.js failed to load', 'error');
+                log('config.js failed to load', 'error');
+            }
+            
+            // Test script.js
+            if (typeof generateStory === 'function') {
+                addStatus('fileStatus', '✅ script.js loaded successfully', 'success');
+                log('script.js loaded successfully');
+            } else {
+                addStatus('fileStatus', '❌ script.js failed to load', 'error');
+                log('script.js failed to load', 'error');
+            }
+            
+            // Test roleplay.js
+            if (typeof initializeRoleplay === 'function') {
+                addStatus('fileStatus', '✅ roleplay.js loaded successfully', 'success');
+                log('roleplay.js loaded successfully');
+            } else {
+                addStatus('fileStatus', '❌ roleplay.js failed to load', 'error');
+                log('roleplay.js failed to load', 'error');
+            }
+        }
+        
+        // Test navigation
+        function testNavigation() {
+            log('Testing navigation...');
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            if (navLinks.length > 0) {
+                addStatus('navStatus', `✅ Found ${navLinks.length} navigation links`, 'success');
+                log(`Found ${navLinks.length} navigation links`);
+                
+                navLinks.forEach((link, index) => {
+                    const href = link.getAttribute('href');
+                    const page = link.getAttribute('data-page');
+                    log(`Link ${index + 1}: ${page} -> ${href}`);
+                });
+            } else {
+                addStatus('navStatus', '❌ No navigation links found', 'error');
+                log('No navigation links found', 'error');
+            }
+        }
+        
+        // Test API
+        async function testAPI() {
+            log('Testing API connection...');
+            
+            if (!window.config || !window.config.GEMINI_API_KEY) {
+                addStatus('apiStatus', '❌ API key not found', 'error');
+                log('API key not found', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${window.config.endpoints[0]}?key=${window.config.GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: "Write a very short space story (1 sentence)."
+                            }]
+                        }],
+                        generationConfig: window.config.generationConfig,
+                        safetySettings: window.config.safetySettings
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0]) {
+                        addStatus('apiStatus', '✅ API connection successful', 'success');
+                        log('API connection successful');
+                    } else {
+                        addStatus('apiStatus', '⚠️ API responded but with unexpected format', 'warning');
+                        log('API responded but with unexpected format', 'warning');
+                    }
+                } else {
+                    addStatus('apiStatus', `❌ API error: ${response.status}`, 'error');
+                    log(`API error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                addStatus('apiStatus', `❌ API connection failed: ${error.message}`, 'error');
+                log(`API connection failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Test roleplay elements
+        function testRoleplayElements() {
+            log('Testing roleplay elements...');
+            
+            // Test if we can access the roleplay page
+            fetch('shared.html')
+                .then(response => {
+                    if (response.ok) {
+                        addStatus('roleplayStatus', '✅ Roleplay page accessible', 'success');
+                        log('Roleplay page accessible');
+                        
+                        // Test if roleplay functions exist
+                        if (typeof characters !== 'undefined') {
+                            addStatus('roleplayStatus', '✅ Characters defined', 'success');
+                            log('Characters defined');
+                        } else {
+                            addStatus('roleplayStatus', '❌ Characters not defined', 'error');
+                            log('Characters not defined', 'error');
+                        }
+                        
+                        if (typeof gameState !== 'undefined') {
+                            addStatus('roleplayStatus', '✅ Game state defined', 'success');
+                            log('Game state defined');
+                        } else {
+                            addStatus('roleplayStatus', '❌ Game state not defined', 'error');
+                            log('Game state not defined', 'error');
+                        }
+                    } else {
+                        addStatus('roleplayStatus', `❌ Roleplay page not accessible: ${response.status}`, 'error');
+                        log(`Roleplay page not accessible: ${response.status}`, 'error');
+                    }
+                })
+                .catch(error => {
+                    addStatus('roleplayStatus', `❌ Error accessing roleplay page: ${error.message}`, 'error');
+                    log(`Error accessing roleplay page: ${error.message}`, 'error');
+                });
+        }
+        
+        // Initialize debug
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Debug page loaded');
+            testFileLoading();
+        });
+        
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            log(`JavaScript error: ${e.error}`, 'error');
+        });
+    </script>
+</body>
+</html> 

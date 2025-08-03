@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Story Generator - Roleplay Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="roleplay-page" style="background: #000000; min-height: 100vh; padding-top: 80px;">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="sparkles"></div>
+    
+    <!-- Floating Navigation Bar -->
+    <nav class="floating-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-link" data-page="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="generate.html" class="nav-link" data-page="generate">
+                <span class="nav-icon">✨</span>
+                <span class="nav-text">Generate Story</span>
+            </a>
+            <a href="shared.html" class="nav-link active" data-page="shared">
+                <span class="nav-icon">🎭</span>
+                <span class="nav-text">Roleplay</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="roleplay-container">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-content">
+                <h1>🎭 Space Roleplay Adventure</h1>
+                <p class="welcome-subtitle">Embark on an interactive cosmic journey where your choices shape the story</p>
+                
+                <div class="character-selection">
+                    <h2>Choose Your Character</h2>
+                    <div class="character-grid">
+                        <div class="character-card" data-character="astronaut">
+                            <div class="character-icon">👨‍🚀</div>
+                            <h3>Space Explorer</h3>
+                            <p>A brave astronaut on a mission to discover the unknown</p>
+                        </div>
+                        <div class="character-card" data-character="scientist">
+                            <div class="character-icon">🔬</div>
+                            <h3>Space Scientist</h3>
+                            <p>A brilliant researcher seeking to unlock cosmic mysteries</p>
+                        </div>
+                        <div class="character-card" data-character="pilot">
+                            <div class="character-icon">🚁</div>
+                            <h3>Starship Pilot</h3>
+                            <p>A skilled pilot navigating the vastness of space</p>
+                        </div>
+                        <div class="character-card" data-character="engineer">
+                            <div class="character-icon">⚙️</div>
+                            <h3>Space Engineer</h3>
+                            <p>A resourceful engineer keeping systems running in the void</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="start-adventure-btn" onclick="startAdventure()" disabled>
+                    <span class="button-icon">🚀</span>
+                    Start Adventure
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="game-screen" style="display: none;">
+            <div class="game-header">
+                <div class="character-info">
+                    <span id="characterIcon" class="character-icon-small"></span>
+                    <span id="characterName" class="character-name"></span>
+                </div>
+                <div class="game-controls">
+                    <button class="control-btn" onclick="restartGame()">
+                        <span class="button-icon">🔄</span>
+                        New Story
+                    </button>
+                    <button class="control-btn" onclick="showWelcome()">
+                        <span class="button-icon">🏠</span>
+                        Menu
+                    </button>
+                </div>
+            </div>
+
+            <div class="story-display">
+                <div id="storyContent" class="story-content">
+                    <!-- Story content will be displayed here -->
+                </div>
+                
+                <div id="choicesContainer" class="choices-container">
+                    <!-- Choices will be displayed here -->
+                </div>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating your adventure...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="roleplay.js"></script>
+    <script>
+        // Enhanced error handling and initialization
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.error);
+        });
+        
+        // Ensure roleplay functionality works
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Roleplay page loaded, initializing...');
+            
+            // Check if all required elements exist
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const gameScreen = document.getElementById('gameScreen');
+            const characterCards = document.querySelectorAll('.character-card');
+            const startBtn = document.querySelector('.start-adventure-btn');
+            
+            console.log('Elements found:', {
+                welcomeScreen: !!welcomeScreen,
+                gameScreen: !!gameScreen,
+                characterCards: characterCards.length,
+                startBtn: !!startBtn
+            });
+            
+            // Initialize character selection if not already done
+            if (characterCards.length > 0) {
+                characterCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        console.log('Character clicked:', this.dataset.character);
+                        
+                        // Remove previous selection
+                        document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
+                        
+                        // Add selection
+                        this.classList.add('selected');
+                        
+                        // Enable start button
+                        if (startBtn) {
+                            startBtn.disabled = false;
+                            console.log('Start button enabled');
+                        }
+                    });
+                });
+                console.log('Character selection initialized');
+            }
+            
+            // Ensure start adventure function exists
+            if (typeof startAdventure === 'undefined') {
+                console.error('startAdventure function not found!');
+                // Create a fallback
+                window.startAdventure = function() {
+                    console.log('Fallback startAdventure called');
+                    alert('Roleplay functionality is loading... Please try again.');
+                };
+            }
+            
+            // Ensure restart and menu functions exist
+            if (typeof restartGame === 'undefined') {
+                window.restartGame = function() {
+                    console.log('Fallback restartGame called');
+                    location.reload();
+                };
+            }
+            
+            if (typeof showWelcome === 'undefined') {
+                window.showWelcome = function() {
+                    console.log('Fallback showWelcome called');
+                    location.reload();
+                };
+            }
+            
+            console.log('Roleplay initialization complete');
+        });
+    </script>
+</body>
+</html> 

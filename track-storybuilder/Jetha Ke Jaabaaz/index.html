@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Story Generator - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .brand-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            font-family: 'Orbitron', 'Arial', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 20px rgba(0, 150, 255, 0.5),
+                0 0 30px rgba(0, 100, 255, 0.3);
+            letter-spacing: 2px;
+            animation: brandGlow 3s ease-in-out infinite alternate;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes brandGlow {
+            0% {
+                text-shadow: 
+                    0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(0, 150, 255, 0.5),
+                    0 0 30px rgba(0, 100, 255, 0.3);
+            }
+            100% {
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 0.4),
+                    0 0 25px rgba(0, 200, 255, 0.6),
+                    0 0 35px rgba(0, 150, 255, 0.4);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .brand-logo {
+                font-size: 1.5rem;
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .brand-logo {
+                font-size: 1.2rem;
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                letter-spacing: 1px;
+            }
+        }
+        
+        .logo-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin: 20px auto;
+            max-width: 600px;
+            display: inline-block;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.1) inset,
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(0, 150, 255, 0.3),
+                0 0 60px rgba(0, 100, 255, 0.2),
+                0 0 90px rgba(0, 50, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.1) inset,
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 0 30px rgba(0, 150, 255, 0.3),
+                    0 0 60px rgba(0, 100, 255, 0.2),
+                    0 0 90px rgba(0, 50, 255, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.1) inset,
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 0 40px rgba(0, 200, 255, 0.4),
+                    0 0 80px rgba(0, 150, 255, 0.3),
+                    0 0 120px rgba(0, 100, 255, 0.2);
+            }
+        }
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        .logo-container h1 {
+            margin: 0;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 20px rgba(0, 150, 255, 0.5),
+                0 0 30px rgba(0, 100, 255, 0.3),
+                0 0 40px rgba(0, 50, 255, 0.2);
+            font-size: 2.5rem;
+            text-align: center;
+            white-space: nowrap;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 
+                    0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(0, 150, 255, 0.5),
+                    0 0 30px rgba(0, 100, 255, 0.3),
+                    0 0 40px rgba(0, 50, 255, 0.2);
+            }
+            100% {
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 0.4),
+                    0 0 25px rgba(0, 200, 255, 0.6),
+                    0 0 35px rgba(0, 150, 255, 0.4),
+                    0 0 45px rgba(0, 100, 255, 0.3);
+            }
+        }
+        .logo-container .tagline {
+            margin: 10px 0 0 0;
+            color: #b8b8b8;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        @media (max-width: 768px) {
+            .logo-container {
+                padding: 15px 20px;
+                margin: 15px auto;
+                max-width: 90%;
+            }
+            .logo-container h1 {
+                font-size: 2rem;
+            }
+            .logo-container .tagline {
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .logo-container {
+                padding: 12px 15px;
+            }
+            .logo-container h1 {
+                font-size: 1.5rem;
+            }
+            .logo-container .tagline {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="landing-page">
+    <div class="brand-logo">CosmicTales</div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="sparkles"></div>
+    
+    <!-- Floating Navigation Bar -->
+    <nav class="floating-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-link active" data-page="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="generate.html" class="nav-link" data-page="generate">
+                <span class="nav-icon">✨</span>
+                <span class="nav-text">Generate Story</span>
+            </a>
+            <a href="shared.html" class="nav-link" data-page="shared">
+                <span class="nav-icon">🎭</span>
+                <span class="nav-text">Roleplay</span>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="landing-content">
+        <div class="logo-container">
+            <h1>🚀 Space Story Generator</h1>
+            <p class="tagline">Embark on AI-powered cosmic adventures</p>
+        </div>
+        
+        <div class="cta-section">
+            <button class="start-button" onclick="startJourney()">
+                <span class="button-text">Start Your Space Journey</span>
+                <span class="button-icon">✨</span>
+            </button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">🤖</span>
+                <p>AI-Powered Stories</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎨</span>
+                <p>Custom Prompts</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🌌</span>
+                <p>Space Adventures</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
