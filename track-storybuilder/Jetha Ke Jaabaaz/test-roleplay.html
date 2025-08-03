@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleplay Test</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+        .character-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .character-card.selected {
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.2);
+        }
+        button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Roleplay Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Character Selection Test</h2>
+        <div class="character-card" data-character="astronaut">
+            <h3>👨‍🚀 Space Explorer</h3>
+            <p>Test astronaut character</p>
+        </div>
+        <div class="character-card" data-character="scientist">
+            <h3>🔬 Space Scientist</h3>
+            <p>Test scientist character</p>
+        </div>
+        <button id="startBtn" onclick="testStart()" disabled>Start Test</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <div id="console" style="background: #111; padding: 10px; border-radius: 5px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        // Simple test functions
+        function log(message) {
+            const console = document.getElementById('console');
+            console.innerHTML += message + '<br>';
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        let selectedCharacter = null;
+        
+        // Add character selection
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('click', function() {
+                log('Character clicked: ' + this.dataset.character);
+                
+                // Remove previous selection
+                document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
+                
+                // Add selection
+                this.classList.add('selected');
+                selectedCharacter = this.dataset.character;
+                
+                // Enable start button
+                document.getElementById('startBtn').disabled = false;
+                
+                log('Character selected: ' + selectedCharacter);
+            });
+        });
+        
+        function testStart() {
+            if (!selectedCharacter) {
+                log('ERROR: No character selected!');
+                return;
+            }
+            
+            log('Starting test with character: ' + selectedCharacter);
+            log('Config loaded: ' + (window.config ? 'YES' : 'NO'));
+            
+            // Test API call
+            testAPICall();
+        }
+        
+        async function testAPICall() {
+            try {
+                log('Testing API call...');
+                const response = await fetch(`${window.config.endpoints[0]}?key=${window.config.GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: "Write a very short space story (2 sentences) about an astronaut discovering something amazing."
+                            }]
+                        }],
+                        generationConfig: window.config.generationConfig,
+                        safetySettings: window.config.safetySettings
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log('API Response received: ' + (data.candidates ? 'SUCCESS' : 'FAILED'));
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const text = data.candidates[0].content.parts[0].text;
+                    log('Story generated: ' + text.substring(0, 100) + '...');
+                } else {
+                    log('ERROR: Invalid API response format');
+                }
+                
+            } catch (error) {
+                log('ERROR: ' + error.message);
+            }
+        }
+        
+        // Log initial state
+        log('Test page loaded');
+        log('Config available: ' + (window.config ? 'YES' : 'NO'));
+    </script>
+</body>
+</html> 

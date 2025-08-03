@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Story Generator - Generate Story</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="story-page">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <!-- Floating Navigation Bar -->
+    <nav class="floating-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-link" data-page="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="generate.html" class="nav-link active" data-page="generate">
+                <span class="nav-icon">✨</span>
+                <span class="nav-text">Generate Story</span>
+            </a>
+            <a href="shared.html" class="nav-link" data-page="shared">
+                <span class="nav-icon">🎭</span>
+                <span class="nav-text">Roleplay</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="story-container">
+        <div class="story-card">
+            <div class="story-header-card">
+                <h2>Your Space Adventure</h2>
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Generating your cosmic tale...</p>
+                </div>
+            </div>
+            
+            <div class="story-content" id="storyContent">
+                <!-- Story will be populated here -->
+            </div>
+            
+            <div class="story-actions">
+                <button class="action-button regenerate-btn" onclick="regenerateStory()">
+                    <span class="button-icon">🔄</span>
+                    Regenerate Story
+                </button>
+                
+                <button class="action-button custom-btn" onclick="openCustomModal()">
+                    <span class="button-icon">✏️</span>
+                    Custom Story Input
+                </button>
+                
+                <button class="action-button share-btn" onclick="shareStory()" id="shareBtn" disabled>
+                    <span class="button-icon">📤</span>
+                    Share with Community
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom Input Modal -->
+    <div class="modal" id="customModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Your Custom Space Story</h3>
+                <button class="close-button" onclick="closeCustomModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Describe your space adventure idea:</p>
+                <textarea 
+                    id="customPrompt" 
+                    placeholder="e.g., An astronaut lost near Jupiter, A space pirate discovering ancient ruins, A robot exploring a distant galaxy..."
+                    rows="4"
+                ></textarea>
+                <div class="modal-actions">
+                    <button class="modal-button cancel-btn" onclick="closeCustomModal()">Cancel</button>
+                    <button class="modal-button generate-btn" onclick="generateCustomStory()">Generate Story</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal">
+            <div class="modal-header">
+                <h3>🎉 Story Shared!</h3>
+                <button class="close-button" onclick="closeSuccessModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Your space story has been shared with the community!</p>
+                <button class="modal-button" onclick="closeSuccessModal()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
