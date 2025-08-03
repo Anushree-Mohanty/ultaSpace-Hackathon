@@ -1,12 +1,10 @@
 // Configuration loader for environment variables
 // Note: In a production environment, these should be loaded server-side
 // For this demo, we'll use a simple configuration object
+const GEMINI_API_KEY = window.config.GEMINI_API_KEY;
+const GEMINI_API_URL = window.config.GEMINI_API_URL;
 
 const config = {
-    // Gemini API Configuration
-    GEMINI_API_KEY: '',
-    GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-    
     // API Endpoints
     endpoints: [
         'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
