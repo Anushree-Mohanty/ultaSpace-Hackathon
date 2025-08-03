@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Story Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Orbitron:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        .nav-links {
+            margin-top: 10px;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <header>
+            <h1 class="title">🚀 Cosmic Story Builder 🌌</h1>
+            <p class="subtitle">Create epic space adventures with just a few clicks!</p>
+        </header>
+
+        <main class="story-builder">
+            <div class="form-section">
+                <div class="input-group">
+                    <label for="protagonist">Choose Your Hero:</label>
+                    <select id="protagonist" class="space-select">
+                        <option value="">Select a protagonist...</option>
+                        <option value="brave astronaut">Brave Astronaut</option>
+                        <option value="curious alien explorer">Curious Alien Explorer</option>
+                        <option value="advanced AI robot">Advanced AI Robot</option>
+                        <option value="space pirate captain">Space Pirate Captain</option>
+                        <option value="intergalactic scientist">Intergalactic Scientist</option>
+                        <option value="telepathic being">Telepathic Being</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="setting">Choose Your Setting:</label>
+                    <select id="setting" class="space-select">
+                        <option value="">Select a setting...</option>
+                        <option value="a distant alien planet with purple skies">Distant Alien Planet</option>
+                        <option value="a massive space station orbiting Jupiter">Space Station Near Jupiter</option>
+                        <option value="the bridge of an interstellar spaceship">Interstellar Spaceship</option>
+                        <option value="a mysterious asteroid mining facility">Asteroid Mining Facility</option>
+                        <option value="the surface of a moon with crystal formations">Crystal Moon Surface</option>
+                        <option value="a bustling intergalactic marketplace">Intergalactic Marketplace</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="conflict">Choose Your Adventure:</label>
+                    <select id="conflict" class="space-select">
+                        <option value="">Select an adventure type...</option>
+                        <option value="discovers a hidden alien artifact that holds ancient secrets">Ancient Artifact Discovery</option>
+                        <option value="must prevent an asteroid from destroying a peaceful colony">Asteroid Crisis</option>
+                        <option value="encounters a friendly alien species seeking help">First Contact Mission</option>
+                        <option value="investigates mysterious energy readings from deep space">Deep Space Mystery</option>
+                        <option value="races against time to repair critical life support systems">Emergency Repair Mission</option>
+                        <option value="stumbles upon a wormhole leading to an unknown galaxy">Wormhole Adventure</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="companion">Choose Your Companion:</label>
+                    <select id="companion" class="space-select">
+                        <option value="">Select a companion...</option>
+                        <option value="a witty holographic AI assistant">Holographic AI Assistant</option>
+                        <option value="a loyal alien pet with special abilities">Alien Pet Companion</option>
+                        <option value="an experienced space veteran">Space Veteran</option>
+                        <option value="a mysterious figure in a silver suit">Mysterious Silver Figure</option>
+                        <option value="a group of friendly space traders">Space Trader Crew</option>
+                        <option value="a sentient spaceship computer">Sentient Ship Computer</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="customElement">Add Your Own Element:</label>
+                    <input type="text" id="customElement" class="space-input" placeholder="Add a custom story element...">
+                </div>
+
+                <div class="button-group">
+                    <button id="generateStory" class="cosmic-button primary">Generate Story</button>
+                    <button id="clearForm" class="cosmic-button secondary">Clear All</button>
+                </div>
+            </div>
+
+            <div class="story-output">
+                <div id="storyDisplay" class="story-container">
+                    <div class="placeholder">
+                        <div class="planet-icon">🪐</div>
+                        <p>Your cosmic adventure will appear here...</p>
+                        <p class="hint">Fill out the form and click "Generate Story" to begin!</p>
+                    </div>
+                </div>
+                
+                <div class="story-actions" id="storyActions" style="display: none;">
+                    <button id="saveStory" class="cosmic-button">Save Story</button>
+                    <button id="shareStory" class="cosmic-button">Copy to Clipboard</button>
+                    <button id="newStory" class="cosmic-button">Create New Story</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>🌟 Explore the infinite possibilities of space storytelling! 🌟</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+          "particles": {
+            "number": {
+              "value": 120,
+              "density": { "enable": true, "value_area": 800 }
+            },
+            "color": { "value": ["#4ecdc4", "#45b7d1", "#96ceb4", "#ff6b6b"] },
+            "shape": { "type": "circle" },
+            "opacity": { 
+              "value": 0.6,
+              "random": true,
+              "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 }
+            },
+            "size": { 
+              "value": 3, 
+              "random": true,
+              "anim": { "enable": true, "speed": 2, "size_min": 0.1 }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#4ecdc4",
+              "opacity": 0.3,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 2,
+              "direction": "none",
+              "random": true,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": { "enable": true, "mode": "grab" },
+              "onclick": { "enable": true, "mode": "push" }
+            },
+            "modes": {
+              "grab": { 
+                "distance": 200,
+                "line_linked": { "opacity": 0.8 }
+              },
+              "push": { "particles_nb": 4 }
+            }
+          },
+          "retina_detect": true
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
